@@ -4,7 +4,11 @@ from langchain import PromptTemplate
 from langchain import HuggingFaceHub
 
 import os 
+import io
 import streamlit as st
+from fetch_image import fetch_image
+from docs import create_word_docs
+from PIL import Image
 
 LLM_KEY = os.environ.get('SQL_MODEL_KEY')
 def load_llm(prompt_template):
@@ -66,11 +70,26 @@ def main():
 
         with col1:
             st.subheader('Your content image')
-            image_url = 'image.png'
+            image_url = fetch_image(image_input)
             st.image(image_url)
         
         with col2:
             st.subheader('Download your content')
+            image_input = 'temp_image.jpg'
+            doc = create_word_docs(user_input, result['text'], Image.open(image_input))
+
+            # save the document
+            doc_buffer = io.BytesIO()
+            doc.save(doc_buffer)
+            doc_buffer.seek(0)
+
+            # streamlit download
+            st.download_button(
+                label='Download Your Content',
+                data = doc_buffer,
+                file_name='doc_final.docx',
+                mime='application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+            )
 
 if __name__=='__main__':
     main()
