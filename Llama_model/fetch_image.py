@@ -26,5 +26,3 @@ def fetch_image(query):
             print('No Image found!!')
     else:
         return f"Error : {response.status_code}. {response.text}"
-
-fetch_image("Nature")
