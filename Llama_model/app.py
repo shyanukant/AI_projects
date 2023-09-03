@@ -22,7 +22,7 @@ def load_llm(prompt_template):
     # )
 
     llm = HuggingFaceHub(
-        repo_id ='meta-llama/Llama-2-7b-chat-hf',
+        repo_id ='TheBloke/Llama-2-70B-chat-GPTQ',
         huggingfacehub_api_token=LLM_KEY,
         model_kwargs={
             'tempreture': 0.7, 'max_length': 150
@@ -54,9 +54,9 @@ def main():
             st.write('YOur submitted topic for image generation: ' + image_input)
 
             prompt_template = """
-                            Your a digital marketing ans SEO expert and also in social media management. 
-                            Craft a captivating caption that grabs attention within the first few words on {topic}. 
-                            Use a mix of emotion, curiosity, and relevance to entice readers to read the full post.
+                            You are the dedicated content creator and skilled social media marketer for our company. 
+                            In this dynamic role, your responsibility encompasses crafting top-notch content within the realm of {topic}, 
+                            
             """
             llm_call = load_llm(prompt_template)
             print(llm_call)
